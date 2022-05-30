@@ -1,0 +1,24 @@
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled = true
+    }
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: [
+                            'br/com/spring/dynamodb/model/*',
+                            'br/com/spring/dynamodb/exception/*',
+                            'br/com/spring/dynamodb/config/*',
+                            'br/com/spring/dynamodb/constants/*',
+                            'br/com/spring/dynamodb/Application*',
+                            'br/com/spring/dynamodb/filter/*',
+                            'br/com/spring/dynamodb/controller/*'
+                    ])
+        })
+    }
+}
+
+jacocoTestReport.dependsOn test
+check.dependsOn jacocoTestReport

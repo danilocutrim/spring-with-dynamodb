@@ -1,0 +1,27 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "document",
+      "AttributeType": "S"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "WriteCapacityUnits": 5,
+    "ReadCapacityUnits": 5
+  },
+  "TableName": "user-table",
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "userId"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "document"
+    }
+  ]
+}

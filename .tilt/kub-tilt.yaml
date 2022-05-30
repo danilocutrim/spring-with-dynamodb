@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-with-dynamodb
+  labels:
+    app: spring-with-dynamodb
+spec:
+  selector:
+    matchLabels:
+      app: spring-with-dynamodb
+  template:
+    metadata:
+      labels:
+        app: spring-with-dynamodb
+    spec:
+      hostNetwork: true
+      containers:
+        - name: spring-with-dynamodb
+          image: spring-with-dynamodb-image
+          env:
+            - name: ENV
+              value: dev
+            - name: JAVA_OPTS
+              value: >-
+                -Duser.timezone=America/Sao_Paulo -Dfile.encoding=UTF8 -Xms512m
+                -Xmx1024m

@@ -1,0 +1,6 @@
+aws:
+  dynamo:
+    endpoint: ${ENV_DYNAMO_DB_HOST:localhost:4566}
+  accesskey: ${ENV_AWS_ACCESS_KEY:123}
+  secretkey: ${ENV_AWS_SECRET_KEY:123}
+  region: ${ENV_AWS_REGION:us-east-1}

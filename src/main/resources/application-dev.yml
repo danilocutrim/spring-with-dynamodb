@@ -1,0 +1,24 @@
+server:
+  port: ${ENV_PORT:9080}
+  servlet:
+    contextPath: ${ENV_CTX_PATH:/spring-with-dynamodb}
+
+spring:
+  profiles:
+    active: dev
+  config:
+    use-legacy-processing: true
+  application:
+    name: spring-with-dynamodb
+  zipkin:
+    base-url: ${ENV_ZIPKIN_HOST:http://localhost:9080}
+    enabled: ${ENV_ZIPKIN_ENABLE:false}
+  sleuth:
+    enabled: ${ENV_SLEUTH_ENABLE:false}
+
+aws:
+  dynamo:
+    endpoint: ${ENV_DYNAMO_DB_HOST:localhost:4566}
+  accesskey: ${ENV_AWS_ACCESS_KEY:123}
+  secretkey: ${ENV_AWS_SECRET_KEY:123}
+  region: ${ENV_AWS_REGION:us-east-1}

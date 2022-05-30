@@ -1,0 +1,8 @@
+sonarqube {
+    properties {
+        property "sonar.projectKey", "${project.name}"
+        property 'sonar.coverage.exclusions',
+                "**/constants/*,**/exception/*,**/resources/templates/*,**/filter/*,**/config/*,**/controller/*,**/Application*"
+    }
+}
+project.tasks["sonarqube"].dependsOn jacocoTestReport

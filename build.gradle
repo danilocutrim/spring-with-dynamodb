@@ -1,0 +1,131 @@
+buildscript {
+    ext {
+        javaVersion = JavaVersion.VERSION_11
+        kotlinVersion = "1.5.30"
+        springBootVersion = "2.5.4"
+        detektVersion = "1.17.1"
+        spotlessVersion = "5.14.3"
+        springCloudVersion = "2020.0.3"
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion"
+    }
+}
+
+plugins {
+    id "org.springframework.boot" version "$springBootVersion"
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "org.jetbrains.kotlin.plugin.jpa" version "$kotlinVersion"
+    id "java"
+    id "jacoco"
+    id "org.sonarqube" version "3.1.1"
+    id "com.github.jakemarsden.git-hooks" version "0.0.2"
+}
+
+gitHooks {
+    hooks = ["pre-push": "spotlessCheck detekt test"]
+    gradleCommand = "./gradlew"
+}
+
+apply plugin: "java"
+apply plugin: "kotlin"
+apply plugin: "kotlin-spring"
+apply plugin: "kotlin-jpa"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+apply from: "gradle/jacoco.gradle"
+apply from: "gradle/sonar.gradle"
+apply from: "gradle/detekt.gradle"
+apply from: "gradle/spotless.gradle"
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.gradle.org/gradle/libs-releases"
+    }
+}
+
+group = "br.com.spring.dynamodb"
+version = "1.0.0"
+sourceCompatibility = javaVersion
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-undertow:$springBootVersion"
+    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation "io.springfox:springfox-swagger2:2.9.2"
+    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.4"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "io.github.microutils:kotlin-logging:1.6.24"
+    implementation "com.amazonaws:aws-java-sdk-bom:1.11.815"
+    implementation "com.amazonaws:aws-java-sdk-dynamodb:1.11.815"
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+    implementation "org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE"
+    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:3.0.3"
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+        exclude group: "org.mockito", module: "mockito-core"
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+    testImplementation 'io.mockk:mockk:1.12.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "${project.name}"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+configurations {
+    implementation.exclude module: "spring-boot-starter-tomcat"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = javaVersion
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = javaVersion
+    }
+}
+
+task printVersion {
+    doLast {
+        println "Build version: $version"
+    }
+}
+
+task printProjName {
+    doLast {
+        println "name: ${project.name}"
+    }
+}
+
+jar {
+    enabled = false
+}
