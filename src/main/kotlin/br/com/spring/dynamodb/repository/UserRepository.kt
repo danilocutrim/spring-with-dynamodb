@@ -74,4 +74,8 @@ class UserRepository(private val mapper: DynamoDBMapper, private val dynamoDb: D
                 " id: ${entity.userId}"
         }
     }
+
+    fun listAll(document: String): User? {
+        return mapper.load(User::class.java,document)
+    }
 }

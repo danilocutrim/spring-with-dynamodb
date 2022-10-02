@@ -58,7 +58,6 @@ class UserController(
             }
         }
     }
-
     @PutMapping
     fun updateUser(
         @Valid @RequestBody userUpdate: UserUpdateRequest,

@@ -1,7 +1,7 @@
 buildscript {
     ext {
         javaVersion = JavaVersion.VERSION_11
-        kotlinVersion = "1.5.30"
+        kotlinVersion = "1.6.10"
         springBootVersion = "2.5.4"
         detektVersion = "1.17.1"
         spotlessVersion = "5.14.3"
