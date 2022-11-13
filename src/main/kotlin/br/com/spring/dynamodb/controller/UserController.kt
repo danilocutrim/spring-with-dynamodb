@@ -7,6 +7,7 @@ import br.com.spring.dynamodb.model.response.UserSaveResponse
 import br.com.spring.dynamodb.service.UserService
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -31,8 +32,7 @@ class UserController(
     ): UserSaveResponse {
         logger.info { "saveUser: saving User " }
         val response = userService.saveUser(
-            userSaveRequest = userSaveRequest,
-            document = document
+            userSaveRequest = userSaveRequest
         )
         return response.also {
             logger.info {
@@ -45,7 +45,7 @@ class UserController(
     @GetMapping
     fun getUser(
         @RequestParam("id") @NotBlank id: String,
-        @NotBlank @RequestHeader("document") document: String
+        @RequestParam("document") document: String
     ): User {
         logger.info { "getUser: finding user by document: $document Id: $id" }
         return userService.getUser(
@@ -58,22 +58,25 @@ class UserController(
             }
         }
     }
-    @PutMapping
+
+    @PutMapping("/{userId}")
     fun updateUser(
         @Valid @RequestBody userUpdate: UserUpdateRequest,
+        @PathVariable userId: String,
         @NotBlank @RequestHeader("document") document: String
     ) {
         logger.info {
             "updateUser: updating user to document: $document, Id:" +
-                userUpdate.id
+                userId
         }
         userService.updateUser(
             userUpdateRequest = userUpdate,
-            document = document
+            document = document,
+            userId = userId
         ).also {
             logger.info {
                 "updateUser: updated user to document: $document, Id:" +
-                    userUpdate.id
+                    userId
             }
         }
     }

@@ -3,6 +3,7 @@ package br.com.spring.dynamodb.util
 import br.com.spring.dynamodb.model.entity.User
 import br.com.spring.dynamodb.model.request.UserSaveRequest
 import br.com.spring.dynamodb.model.response.UserSaveResponse
+import br.com.spring.dynamodb.util.DefaultValuesMock.Companion.DOCUMENT
 
 class MockUser {
     companion object {
@@ -12,7 +13,8 @@ class MockUser {
             birthDate = "Approved",
             nickName = "500",
             country = "Santo André",
-            name = "umNomer"
+            name = "umNomer",
+            documentNumber = DOCUMENT
         )
 
         val saveUserResponse = UserSaveResponse(

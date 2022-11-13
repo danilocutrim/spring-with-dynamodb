@@ -16,13 +16,12 @@ class UserService(
 
     fun saveUser(
         userSaveRequest: UserSaveRequest,
-        document: String
     ): UserSaveResponse {
-        logger.info { "saveUser: saving user, document: $document " }
+        logger.info { "saveUser: saving user, document: ${userSaveRequest.documentNumber} " }
         val response =
             repository.save(
                 User(
-                    document = document,
+                    document = userSaveRequest.documentNumber,
                     lastName = userSaveRequest.lastName,
                     country = userSaveRequest.country,
                     nickName = userSaveRequest.nickName,
@@ -33,7 +32,7 @@ class UserService(
         return response.also {
             logger.info {
                 "saveUser: saved user" +
-                    "document: $document" +
+                    "document: ${userSaveRequest.documentNumber}" +
                     "Id: ${response.id}"
             }
         }
@@ -53,16 +52,17 @@ class UserService(
 
     fun updateUser(
         userUpdateRequest: UserUpdateRequest,
+        userId: String,
         document: String
     ) {
         logger.info {
             "updateUser: updating to document: $document," +
-                " Id:${userUpdateRequest.id}"
+                " Id:$userId"
         }
 
-        val entityToUpdate = repository.get(document = document, id = userUpdateRequest.id)
+        val entityToUpdate = repository.get(document = document, id = userId)
         val user = User(
-            userId = userUpdateRequest.id,
+            userId = userId,
             document = document,
             nickName = userUpdateRequest.nickName ?: entityToUpdate.nickName,
             country = userUpdateRequest.country ?: entityToUpdate.country,

@@ -1,7 +1,10 @@
 version: '3.3'
 
 services:
-
+  sample:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
   localstack:
     image: localstack/localstack:latest
     container_name: localstack

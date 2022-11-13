@@ -33,7 +33,7 @@ class UserServiceTest : BaseTestRunner() {
         } returns saveUserResponse
 
         val userSave =
-            userService.saveUser(validUserToSave, DOCUMENT)
+            userService.saveUser(validUserToSave)
         assertEquals(expected, userSave)
         assertNotSame(expected, userSave)
 
@@ -49,7 +49,7 @@ class UserServiceTest : BaseTestRunner() {
         } throws AmazonServiceException("")
 
         assertThrows<AmazonServiceException> {
-            userService.saveUser(validUserToSave, DOCUMENT)
+            userService.saveUser(validUserToSave)
         }
 
         verify(exactly = 1) {
@@ -64,7 +64,7 @@ class UserServiceTest : BaseTestRunner() {
         } throws Exception("")
 
         assertThrows<Exception> {
-            userService.saveUser(validUserToSave, DOCUMENT)
+            userService.saveUser(validUserToSave)
         }
 
         verify(exactly = 1) {

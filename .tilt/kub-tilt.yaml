@@ -22,5 +22,4 @@ spec:
               value: dev
             - name: JAVA_OPTS
               value: >-
-                -Duser.timezone=America/Sao_Paulo -Dfile.encoding=UTF8 -Xms512m
-                -Xmx1024m
+                -Duser.timezone=America/Sao_Paulo -Dfile.encoding=UTF8 -Xms512m -Xmx1024m

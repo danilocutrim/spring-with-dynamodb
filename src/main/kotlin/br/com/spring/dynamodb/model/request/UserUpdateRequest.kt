@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class UserUpdateRequest(
-    val id: String,
     val nickName: String? = null,
     val lastName: String? = null,
     override val country: String? = null,

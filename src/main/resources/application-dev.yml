@@ -1,5 +1,5 @@
 server:
-  port: ${ENV_PORT:9080}
+  port: ${ENV_PORT:8080}
   servlet:
     contextPath: ${ENV_CTX_PATH:/spring-with-dynamodb}
 
